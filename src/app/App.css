@@ -1,0 +1,16 @@
+#bender-container {
+    height: 90vh;
+}
+
+.underline {
+    text-decoration: solid underline #FCA311 0.1em;
+}
+
+.card {
+    border: 2px solid #14213D;
+    padding: 1rem;
+}
+
+.card+.card {
+    margin-top: 2rem;
+}
