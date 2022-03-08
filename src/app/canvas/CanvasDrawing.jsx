@@ -79,7 +79,7 @@ export function drawPoints(points) {
         context.lineTo(x, y);
 
         if (i > 0) { // Draw segment label.
-            // TODO: don't flip labels
+            // TODO: don't flip labels on rotation
             drawSegmentLabel(i - 1, x, prevX, y, prevY);
         }
 

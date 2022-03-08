@@ -43,6 +43,8 @@ function PointsInput(props) {
 
         let points = [[-7, 4], [-8, 4], [-6, 4], [-4, 6], [4, 6], [4, -4], [2, -6], [2, -8], [2, -7]];
         props.setPoints(points);
+
+        setPointsInvalid(false);
     }
 
     return (
