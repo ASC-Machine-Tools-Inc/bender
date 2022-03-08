@@ -14,7 +14,7 @@ function PointsInput(props) {
         if (pointsInput.length > 0) {
             let pointsList = pointsInput.split(", ");
             // Regex for matching points in the form [x,y].
-            let pointRegex = new RegExp("^[\\[]\\d+[,]\\d+[\\]]$");
+            let pointRegex = new RegExp("^[\\[]-?\\d+[,]-?\\d+[\\]]$");
 
             for (let point of pointsList) {
                 let coords = point.slice(1, -1).split(',').map(p => parseInt(p));
@@ -22,8 +22,10 @@ function PointsInput(props) {
 
                 // Check that the point matches the regex and is within the bounds.
                 if (!pointRegex.test(point) ||
-                    coords[0] > (CANVAS_WIDTH / GRID_SIZE) ||
-                    coords[1] > (CANVAS_HEIGHT / GRID_SIZE)) {
+                    coords[0] > (CANVAS_WIDTH / GRID_SIZE / 2) ||
+                    coords[0] < -(CANVAS_WIDTH / GRID_SIZE / 2) ||
+                    coords[1] > (CANVAS_HEIGHT / GRID_SIZE / 2) ||
+                    coords[1] < -(CANVAS_WIDTH / GRID_SIZE / 2)) {
                     setPointsInvalid(true);
                     return;
                 }
@@ -34,18 +36,19 @@ function PointsInput(props) {
         props.setPoints(coordsList);
     }
 
+    // Load demo for outside corner part.
     const loadTest = () => {
-        let pointsInput = "[3,3], [7,3], [7,11], [14,11], [16,7], [20,7], [20,3]";
+        let pointsInput = "[-7,4], [-8,4], [-6,4], [-4,6], [4,6], [4,-4], [2,-6], [2,-8], [2,-7]";
         setPointsInput(pointsInput);
 
-        let points = [[3, 3], [7, 3], [7, 11], [14, 11], [16, 7], [20, 7], [20, 3]];
+        let points = [[-7, 4], [-8, 4], [-6, 4], [-4, 6], [4, 6], [4, -4], [2, -6], [2, -8], [2, -7]];
         props.setPoints(points);
     }
 
     return (
         <Card>
             <Form onSubmit={validatePoints}>
-                <Form.Group className="mb-3">
+                <Form.Group>
                     <h2>Points</h2>
                     <Form.Control
                         value={pointsInput}
@@ -55,7 +58,7 @@ function PointsInput(props) {
                         "Enter a list of points. (Ex: [1,2], [3,4])"
                     />
 
-                    <Row className="my-3">
+                    <Row className="mt-3">
                         <Col>
                             <Button className="btn-secondary" onClick={loadTest}>
                                 Load Test
@@ -70,7 +73,7 @@ function PointsInput(props) {
 
                     <Form.Control.Feedback type="invalid">
                         Unable to parse your list of points. Please make sure they
-                        are in the format [x, y], comma and space separated, and
+                        are in the format [x,y], comma and space separated, and
                         within the canvas grid bounds.
                     </Form.Control.Feedback>
                 </Form.Group>

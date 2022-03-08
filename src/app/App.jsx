@@ -8,7 +8,6 @@ import Canvas from './canvas/Canvas';
 
 function App() {
   const [points, setPoints] = useState([]);
-  const [segments, setSegments] = useState([]);
 
   return (
     <Container id="bender-container" className="mt-4">

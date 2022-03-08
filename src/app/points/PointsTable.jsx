@@ -1,4 +1,4 @@
-import { Card, Row, Table } from "react-bootstrap";
+import { Card, Table } from "react-bootstrap";
 
 function PointsTable(props) {
     const segmentData = processPoints(props.points);
@@ -40,7 +40,7 @@ function getMiddleBend(points) {
 
     if (points.length > 0) {
         let i = Math.floor(points.length / 2);
-        middle = points.length % 2 == 0 ?
+        middle = points.length % 2 === 0 ?
             `[${points[i - 1].toString()}], [${points[i].toString()}]` :
             `[${points[i].toString()}]`
     }

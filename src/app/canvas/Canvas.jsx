@@ -1,11 +1,14 @@
 import "./Canvas.css";
 
-import { Card, Col } from "react-bootstrap";
-import { initalizeCanvas, drawPoints } from "./CanvasDrawing";
 import { useEffect } from "react";
+import { Button, ButtonGroup, Card, Col, Row } from "react-bootstrap";
+import { faArrowsLeftRight, faArrowsUpDown, faRotateLeft, faRotateRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const CANVAS_WIDTH = 600;
-export const CANVAS_HEIGHT = 350;
+import { initalizeCanvas, drawPoints, rotate, flip } from "./CanvasDrawing";
+
+export const CANVAS_WIDTH = 500;
+export const CANVAS_HEIGHT = 500;
 export const GRID_SIZE = 25;
 
 function Canvas(props) {
@@ -20,13 +23,45 @@ function Canvas(props) {
     return (
         <Col>
             <Card>
-                <h2>2D View</h2>
+                <Row>
+                    <Col>
+                        <h2>2D View</h2>
 
-                <div className="mb-2">
-                    Grid bounds:
-                    Width: {CANVAS_WIDTH / GRID_SIZE} |
-                    Height: {CANVAS_HEIGHT / GRID_SIZE}
-                </div>
+                        <div className="mb-2">
+                            Grid bounds:
+                            Width: {CANVAS_WIDTH / GRID_SIZE} |
+                            Height: {CANVAS_HEIGHT / GRID_SIZE}
+                        </div>
+                    </Col>
+
+                    <Col
+                        id="canvas-btns"
+                        className="d-flex justify-content-end align-items-start"
+                    >
+                        <ButtonGroup>
+                            <Button
+                                className="btn-secondary"
+                                onClick={() => rotate(props.points, 90)}>
+                                <FontAwesomeIcon icon={faRotateRight} />
+                            </Button>
+                            <Button
+                                className="btn-secondary"
+                                onClick={() => rotate(props.points, -90)}>
+                                <FontAwesomeIcon icon={faRotateLeft} />
+                            </Button>
+                            <Button
+                                className="btn-secondary"
+                                onClick={() => flip(props.points, 0)}>
+                                <FontAwesomeIcon icon={faArrowsUpDown} />
+                            </Button>
+                            <Button
+                                className="btn-secondary"
+                                onClick={() => flip(props.points, 1)}>
+                                <FontAwesomeIcon icon={faArrowsLeftRight} />
+                            </Button>
+                        </ButtonGroup>
+                    </Col>
+                </Row>
 
                 <canvas
                     id="bender-canvas"

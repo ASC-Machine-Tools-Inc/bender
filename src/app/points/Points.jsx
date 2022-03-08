@@ -1,5 +1,3 @@
-import "./Points.css";
-
 import { Col } from "react-bootstrap";
 
 import PointsInput from "./PointsInput";
