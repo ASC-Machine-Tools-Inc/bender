@@ -5,7 +5,7 @@ import { Button, ButtonGroup, Card, Col, Row } from "react-bootstrap";
 import { faArrowsLeftRight, faArrowsUpDown, faRotateLeft, faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { initalizeCanvas, drawPoints, rotate, flip } from "./CanvasDrawing";
+import { initalizeCanvas, drawPoints } from "./CanvasDrawing";
 
 export const CANVAS_WIDTH = 500;
 export const CANVAS_HEIGHT = 500;
@@ -41,22 +41,22 @@ function Canvas(props) {
                         <ButtonGroup>
                             <Button
                                 className="btn-secondary"
-                                onClick={() => rotate(props.points, 90)}>
+                                onClick={() => props.rotatePoints(-1, 1)}>
                                 <FontAwesomeIcon icon={faRotateRight} />
                             </Button>
                             <Button
                                 className="btn-secondary"
-                                onClick={() => rotate(props.points, -90)}>
+                                onClick={() => props.rotatePoints(1, -1)}>
                                 <FontAwesomeIcon icon={faRotateLeft} />
                             </Button>
                             <Button
                                 className="btn-secondary"
-                                onClick={() => flip(props.points, 0)}>
+                                onClick={() => props.transformPoints(1, -1)}>
                                 <FontAwesomeIcon icon={faArrowsUpDown} />
                             </Button>
                             <Button
                                 className="btn-secondary"
-                                onClick={() => flip(props.points, 1)}>
+                                onClick={() => props.transformPoints(-1, 1)}>
                                 <FontAwesomeIcon icon={faArrowsLeftRight} />
                             </Button>
                         </ButtonGroup>

@@ -90,7 +90,7 @@ function roundToTwo(num) {
 }
 
 // Get the angle from the x-axis for a segment.
-function getAngle(prev, curr) {
+export function getAngle(prev, curr) {
     let dx = prev[0] - curr[0];
     let dy = prev[1] - curr[1];
     let theta = Math.atan2(-dy, -dx); // [0, Ⲡ] then [-Ⲡ, 0]; clockwise; 0° = east

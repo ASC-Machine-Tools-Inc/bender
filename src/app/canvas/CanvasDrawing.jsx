@@ -1,11 +1,8 @@
 import { GRID_SIZE } from "./Canvas.jsx";
+import { getAngle } from "../points/PointsTable.jsx";
 
 let canvas;
 let context;
-
-let rotation = 0;
-let xScalar = 1;
-let yScalar = 1;
 
 export function initalizeCanvas() {
     canvas = document.getElementById("bender-canvas");
@@ -59,18 +56,14 @@ export function drawPoints(points) {
     // Move origin to center.
     context.translate(canvas.width / 2, canvas.height / 2);
 
-    // Rotate canvas.
-    let rad = rotation * Math.PI / 180;
-    context.rotate(rad);
-
     // Draw points.
     let prevX;
     let prevY;
     context.beginPath();
     for (let i = 0; i < points.length; i++) {
-        let x = points[i][0] * GRID_SIZE * xScalar;
+        let x = points[i][0] * GRID_SIZE;
         // Flip y by default to match regular grid projection.
-        let y = -points[i][1] * GRID_SIZE * yScalar;
+        let y = -points[i][1] * GRID_SIZE;
 
         if (i === 0) { // Move to the starting coordinate of the line.
             context.moveTo(x, y);
@@ -79,7 +72,6 @@ export function drawPoints(points) {
         context.lineTo(x, y);
 
         if (i > 0) { // Draw segment label.
-            // TODO: don't flip labels on rotation
             drawSegmentLabel(i - 1, x, prevX, y, prevY);
         }
 
@@ -106,35 +98,34 @@ function drawSegmentLabel(label, x1, x2, y1, y2) {
     let xAdj = 0;
     let yAdj = 0;
 
-    if (x1 !== x2 && y1 === y2) {
-        yAdj = -10;
-    } else if (x1 === x2 && y1 !== y2) {
+    // Adjust angles basted on rotation.
+    let segmentAngle = getAngle([x2, y2], [x1, y1]);
+    if (segmentAngle < 0) segmentAngle += 360; // Adjust angle to [0, 360] range.
+
+    if (x1 !== x2 && y1 === y2) { // Horizontal line.
+        xAdj = -5;
+        yAdj = -20;
+    } else if (x1 === x2 && y1 !== y2) { // Vertical line.
         xAdj = -30;
-    } else {
+        yAdj = -5;
+    } else if ((segmentAngle >= 90 && segmentAngle <= 180) ||
+        (segmentAngle >= 270 && segmentAngle <= 360)) { // Quadrants 1 & 3.
         xAdj = -30;
-        yAdj = -10;
+        yAdj = -5;
+    } else { // Quadrants 2 & 4.
+        xAdj = 30;
+        yAdj = -5;
     }
 
-    context.fillText(label, ((x1 + x2) / 2) + xAdj, ((y1 + y2) / 2) + yAdj);
-}
+    // Apply counter-rotation. Need to apply to points too?
+    context.save();
 
-export function rotate(points, degrees) {
-    rotation += degrees;
-    drawPoints(points);
-}
+    // Move origin to text position.
+    let xPos = ((x1 + x2) / 2) + xAdj;
+    let yPos = ((y1 + y2) / 2) + yAdj;
+    context.translate(xPos, yPos);
 
-// Flip points over axis (0 for x axis, 1 for y axis).
-export function flip(points, axis) {
-    switch (axis) {
-        case 0:
-            yScalar *= -1;
-            break;
-        case 1:
-            xScalar *= -1;
-            break;
-        default:
-            console.log(`Axis code ${axis} invalid.`);
-    }
+    context.fillText(label, 0, 0);
 
-    drawPoints(points);
+    context.restore();
 }

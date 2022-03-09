@@ -9,6 +9,14 @@ import Canvas from './canvas/Canvas';
 function App() {
   const [points, setPoints] = useState([]);
 
+  const rotatePoints = (xScalar = 1, yScalar = 1) => {
+    setPoints(points.map(([x, y]) => [y * yScalar, x * xScalar]));
+  }
+
+  const transformPoints = (xScalar = 1, yScalar = 1) => {
+    setPoints(points.map(([x, y]) => [x * xScalar, y * yScalar]));
+  }
+
   return (
     <Container id="bender-container" className="mt-4">
       <h1 className="underline mb-3">Bender</h1>
@@ -19,7 +27,11 @@ function App() {
           setPoints={setPoints}
         />
 
-        <Canvas points={points} />
+        <Canvas
+          points={points}
+          rotatePoints={rotatePoints}
+          transformPoints={transformPoints}
+        />
       </Row>
     </Container>
   );
