@@ -1,3 +1,15 @@
 #bender-canvas {
     border: 2px solid black;
 }
+
+.test-canvas-container {
+    height: 500px;
+    width: 500px;
+    margin: 1rem 0;
+    padding: 0;
+    border: 2px solid black;
+}
+
+.test-canvas-container canvas {
+    width: 100%;
+}

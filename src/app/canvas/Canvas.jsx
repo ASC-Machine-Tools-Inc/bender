@@ -1,11 +1,10 @@
 import "./Canvas.css";
 
 import { useEffect } from "react";
-import { Button, ButtonGroup, Card, Col, Row } from "react-bootstrap";
-import { faArrowsLeftRight, faArrowsUpDown, faRotateLeft, faRotateRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Card, Col, Row } from "react-bootstrap";
 
 import { initalizeCanvas, drawPoints } from "./CanvasDrawing";
+import CanvasButtons from "./CanvasButtons";
 
 export const CANVAS_WIDTH = 500;
 export const CANVAS_HEIGHT = 500;
@@ -38,28 +37,10 @@ function Canvas(props) {
                         id="canvas-btns"
                         className="d-flex justify-content-end align-items-start"
                     >
-                        <ButtonGroup>
-                            <Button
-                                className="btn-secondary"
-                                onClick={() => props.rotatePoints(-1, 1)}>
-                                <FontAwesomeIcon icon={faRotateRight} />
-                            </Button>
-                            <Button
-                                className="btn-secondary"
-                                onClick={() => props.rotatePoints(1, -1)}>
-                                <FontAwesomeIcon icon={faRotateLeft} />
-                            </Button>
-                            <Button
-                                className="btn-secondary"
-                                onClick={() => props.transformPoints(1, -1)}>
-                                <FontAwesomeIcon icon={faArrowsUpDown} />
-                            </Button>
-                            <Button
-                                className="btn-secondary"
-                                onClick={() => props.transformPoints(-1, 1)}>
-                                <FontAwesomeIcon icon={faArrowsLeftRight} />
-                            </Button>
-                        </ButtonGroup>
+                        <CanvasButtons
+                            rotatePoints={props.rotatePoints}
+                            transformPoints={props.transformPoints}
+                        />
                     </Col>
                 </Row>
 

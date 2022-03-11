@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import Points from './points/Points';
 import Canvas from './canvas/Canvas';
+import CanvasTest from './canvas/CanvasTest';
 
 function App() {
   const [points, setPoints] = useState([]);
@@ -32,6 +33,10 @@ function App() {
           rotatePoints={rotatePoints}
           transformPoints={transformPoints}
         />
+      </Row>
+
+      <Row>
+        <CanvasTest />
       </Row>
     </Container>
   );
